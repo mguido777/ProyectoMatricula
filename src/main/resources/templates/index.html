@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${titulo}"></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 1rem;
+            overflow-y: auto;
+        }
+
+        .sidebar h4 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar .list-group-item {
+            background-color: transparent;
+            color: #adb5bd;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .sidebar .list-group-item:hover,
+        .sidebar .list-group-item:focus,
+        .sidebar .list-group-item.active {
+            background-color: #495057;
+            color: #fff;
+        }
+
+        .sidebar .list-group-item i {
+            margin-right: 8px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+            background-color: #f1f3f5;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar-text {
+            margin-left: auto;
+        }
+
+        main {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="sidebar">
+    <h4 class="text-center" th:text="${titulo}" ></h4>
+    <div class="list-group list-group-flush" id="sidebarMenu">
+    
+   
+        <div class="collapse" id="collapseDashboard">
+            <a th:href="@{/dashboard}" class="list-group-item ps-5">Inicio</a>
+        </div>
+		
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasRole('administrador')">
+        	<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseUsuarios">
+            	<i class="bi bi-people"></i> Usuarios
+        	</a>
+		</div>
+        
+        <div class="collapse" id="collapseUsuarios">
+            <a th:href="@{/app/usuarios}" class="list-group-item ps-5">Lista de Usuarios</a>
+            <a th:href="@{/roles}" class="list-group-item ps-5">Roles</a>
+        </div>
+		
+		
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasAnyRole('administrador', 'estudiante')">
+        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseCursos">
+            <i class="bi bi-journal-check"></i> Cursos
+        </a>
+		</div>
+		
+        <div class="collapse" id="collapseCursos">
+            <a th:href="@{/matriculas}" class="list-group-item ps-5">Gestionar cursos</a>
+        </div>
+
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasAnyRole('administrador', 'estudiante')">
+		<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseMatriculas">
+            <i class="bi bi-journal-check"></i> Matrículas
+        </a>
+		</div>
+        <div class="collapse" id="collapseMatriculas">
+            <a th:href="@{/matriculas}" class="list-group-item ps-5">Ver Matrículas</a>
+            <a th:href="@{/matriculas/nueva}" class="list-group-item ps-5">Registrar</a>
+        </div>
+
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasAnyRole('administrador', 'estudiante')">
+        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapsePagos">
+            <i class="bi bi-cash-coin"></i> Pagos
+        </a>
+		</div>
+        <div class="collapse" id="collapsePagos">
+            <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de Pagos</a>
+            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">Validar Pagos</a>
+        </div>
+		
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasAnyRole('administrador', 'asesor')">
+        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseAsesores">
+            <i class="bi bi-people"></i> Asesores
+        </a>
+		</div>
+        <div class="collapse" id="collapseAsesores">
+            <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de asesores</a>
+        </div>
+		
+		<!-- Aca autorizo para que roles se muestran las opciones -->
+		<div sec:authorize="hasAnyRole('administrador', 'docente')">
+        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseDocentes">
+            <i class="bi bi-people"></i> Docentes
+        </a>
+		</div>
+        <div class="collapse" id="collapseDocentes">
+            <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de docentes</a>
+        </div>
+
+      
+
+        <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger mt-3">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <nav class="navbar navbar-expand-lg px-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sistema de Matrículas</a>
+			<p>Hola, <span sec:authentication="name"></span> 👋</p>
+			<p>Tu rol: <span sec:authentication="authorities"></span></p>
+			
+			
+        </div>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <main>
+        <div th:fragment="content">
+            <!-- Aquí se inyectará el contenido de las vistas hijas -->
+			<div sec:authorize="hasRole('administrador')">
+			    <p>Este mensaje es solo para administradores.</p>
+			</div>
+
+			<div sec:authorize="hasRole('estudiante')">
+			    <p>Este mensaje es solo para estudiantes.</p>
+			</div>
+			<div sec:authorize="hasRole('asesor')">
+						    <p>Este mensaje es solo para asesores.</p>
+			</div>
+			<div sec:authorize="hasRole('docente')">
+									    <p>Este mensaje es solo para docente.</p>
+			</div>
+        </div>
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
