@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="card p-4 shadow" style="width: 450px;">
+        <h3 class="card-title text-center">Registro de Usuario</h3>
+        <form th:action="@{/registro}" th:object="${usuario}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                <input type="text" th:field="*{username}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" th:field="*{passwordHash}" class="form-control" required>
+            </div>
+            <!-- Aquí puedes agregar más campos si deseas -->
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

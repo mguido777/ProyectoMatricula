@@ -85,7 +85,7 @@
         </div>
 		
 		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasRole('administrador')">
+		<div sec:authorize="hasRole('Administrador')">
         	<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseUsuarios">
             	<i class="bi bi-people"></i> Usuarios
         	</a>
@@ -98,7 +98,7 @@
 		
 		
 		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasAnyRole('administrador', 'estudiante')">
+		<div sec:authorize="hasAnyRole('Administrador', 'Docente')">
         <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseCursos">
             <i class="bi bi-journal-check"></i> Cursos
         </a>
@@ -162,7 +162,7 @@
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de Matrículas</a>
+            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
 			<p>Hola, <span sec:authentication="name"></span> 👋</p>
 			<p>Tu rol: <span sec:authentication="authorities"></span></p>
 			

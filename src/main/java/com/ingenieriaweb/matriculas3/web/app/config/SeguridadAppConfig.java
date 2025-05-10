@@ -1,41 +1,70 @@
-
 package com.ingenieriaweb.matriculas3.web.app.config;
 
+import com.ingenieriaweb.matriculas3.web.app.services.UsuarioDetailsService;
+import com.ingenieriaweb.matriculas3.web.app.filters.JwtAuthenticationFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-public class SeguridadAppConfig{
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("1234")
-                .roles("administrador")
-                .build());
-        manager.createUser(User.withDefaultPasswordEncoder()
-                .username("estu")
-                .password("1357")
-                .roles("estudiante")
-                .build());
-        manager.createUser(User.withDefaultPasswordEncoder()
-                .username("ase")
-                .password("0000")
-                .roles("asesor")
-                .build());
-        manager.createUser(User.withDefaultPasswordEncoder()
-                .username("doc")
-                .password("1111")
-                .roles("docente")
-                .build());
-        return manager;
-    }
+public class SeguridadAppConfig {
+
+	 @Autowired
+	    private UsuarioDetailsService usuarioDetailsService;
+
+	    @Autowired
+	    private JwtAuthenticationFilter jwtAuthenticationFilter;
+	    
+	    private final AuthenticationProvider authenticationProvider = null;
+
+	    public SeguridadAppConfig(UsuarioDetailsService usuarioDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+	        this.usuarioDetailsService = usuarioDetailsService;
+	        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	    }
+	    @Bean
+	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        return http
+	            .csrf().disable()
+	            .authorizeHttpRequests(auth -> auth
+	                .requestMatchers("/api/auth/**", "/login", "/registro", "/css/**", "/js/**").permitAll()
+	                .requestMatchers("/app/**").permitAll()
+	                .anyRequest().authenticated()
+	            )
+	            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	            .authenticationProvider(authenticationProvider()) // ← correcto ahora
+	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+	            .build();
+	    }
+
+	    @Bean
+	    public AuthenticationProvider authenticationProvider() {
+	        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+	        provider.setUserDetailsService(usuarioDetailsService);
+	        provider.setPasswordEncoder(passwordEncoder());
+	        return provider;
+	    }
+	    @Bean
+	    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+	        return http.getSharedObject(AuthenticationManagerBuilder.class)
+	                .userDetailsService(usuarioDetailsService)
+	                .passwordEncoder(passwordEncoder())
+	                .and()
+	                .build();
+	    }
+
+	    @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 }
