@@ -84,7 +84,7 @@
             <a th:href="@{/dashboard}" class="list-group-item ps-5">Inicio</a>
         </div>
 		
-		<!-- Aca autorizo para que roles se muestran las opciones -->
+		
 		<div sec:authorize="hasRole('Administrador')">
         	<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseUsuarios">
             	<i class="bi bi-people"></i> Usuarios

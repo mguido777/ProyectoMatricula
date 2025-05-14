@@ -32,17 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
-     // Extraer desde header
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
         }
 
-        // Si no hay token en el header, buscar en parámetro ?token=
         if ((jwt == null || jwt.isEmpty()) && request.getParameter("token") != null) {
             jwt = request.getParameter("token");
         }
 
-        // Evitar procesar un token vacío o nulo
         if (jwt == null || jwt.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
