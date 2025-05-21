@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ingenieriaweb.matriculas3.web.app.models.Rol;
+import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
 import com.ingenieriaweb.matriculas3.web.app.services.PersonaService;
 import com.ingenieriaweb.matriculas3.web.app.services.RolService;
+import com.ingenieriaweb.matriculas3.web.app.services.UsuarioService;
 
 
 @Controller
@@ -24,6 +26,8 @@ public class IndexController {
 	@Autowired
     private RolService rolService;
 	
+	@Autowired
+    private UsuarioService usuarioService;
 	
 	
 	@GetMapping({"/", "/index" })
@@ -32,9 +36,12 @@ public class IndexController {
 		} 
 	
 	@GetMapping("/usuarios" )
-	public String usuarios(){ 
-		return "usuarios.index"; 
-		} 
+	public String usuarios(Model model) {
+
+	    List<Usuario> usuarios = usuarioService.findAll(); 
+	    model.addAttribute("usuarios", usuarios); 
+	    return "usuarios/index";
+	}
 	
 	@GetMapping("/roles" )
 	public String roles(){ 
