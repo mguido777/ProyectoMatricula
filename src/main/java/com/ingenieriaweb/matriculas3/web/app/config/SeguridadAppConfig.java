@@ -37,15 +37,24 @@ public class SeguridadAppConfig {
 	        return http
 	            .csrf().disable()
 	            .authorizeHttpRequests(auth -> auth
-	                .requestMatchers("/api/auth/**", "/login", "/registro", "/css/**", "/js/**").permitAll()
-	                .requestMatchers("/app/**").permitAll()
+	                .requestMatchers(
+	                    "/api/auth/**",
+	                    "/login",
+	                    "/registro",
+	                    "/css/**",
+	                    "/js/**",
+	                    "/app/**",
+	                    "/usuarios",
+	                    "/roles"
+	                ).permitAll()
 	                .anyRequest().authenticated()
 	            )
 	            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	            .authenticationProvider(authenticationProvider()) // ← correcto ahora
+	            .authenticationProvider(authenticationProvider())
 	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 	            .build();
 	    }
+
 
 	    @Bean
 	    public AuthenticationProvider authenticationProvider() {

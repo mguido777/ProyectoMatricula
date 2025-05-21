@@ -93,7 +93,7 @@
         
         <div class="collapse" id="collapseUsuarios">
             <a th:href="@{/app/usuarios}" class="list-group-item ps-5">*Lista de Usuarios</a>
-            <a th:href="@{/app/roles}" class="list-group-item ps-5">*Roles</a>
+            <a th:href="@{app/roles}" class="list-group-item ps-5">*Roles</a>
         </div>
 		
 		
@@ -172,8 +172,42 @@
 
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
-    <div>
-        <p>Contenido predeterminado</p>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Lista de Roles</h2>
+            <a href="/personas/nuevo" class="btn btn-primary">
+				    <i class="bi bi-person-plus"></i> Nueva Persona
+				</a>
+
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>DNI</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="persona : ${personas}">
+                    <td th:text="${persona.idPersona}">1</td>
+				    <td th:text="${persona.nombres}">Juan</td>
+				    <td th:text="${persona.apellidos}">Pérez</td>
+				    <td th:text="${persona.dni}">12345678</td>
+				    <td th:text="${persona.correo}">juan@example.com</td>
+                    <td>
+                    
+                       <a th:href="@{|/personas/eliminar/${persona.idPersona}|}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">
+						    <i class="bi bi-trash"></i>
+						</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </main>
 </div>
