@@ -47,7 +47,7 @@ public class SeguridadAppConfig {
 	                    "/usuarios",
 	                    "/roles"
 	                ).permitAll()
-	                .anyRequest().authenticated()
+	                .anyRequest().permitAll()
 	            )
 	            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .authenticationProvider(authenticationProvider())

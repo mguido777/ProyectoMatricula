@@ -173,53 +173,25 @@
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Lista de usuarios</h2>
-            <a href="/personas/nuevo" class="btn btn-primary">
-				    <i class="bi bi-person-plus"></i> Nuevo usuario
-				</a>
-
-        </div>
-        
-        <form method="get" th:action="@{/usuarios}" class="mb-3">
-		    <label for="rol">Filtrar por Rol:</label>
-		    <select name="rol" id="rol" class="form-select w-auto d-inline-block mx-2" onchange="this.form.submit()">
-		        <option th:selected="${rolSeleccionado == null}" value="">-- Todos --</option>
-		        <option th:value="1" th:selected="${rolSeleccionado == 1}">Docente</option>
-		        <option th:value="2" th:selected="${rolSeleccionado == 2}">Asesor</option>
-		        <option th:value="3" th:selected="${rolSeleccionado == 3}">Administrador</option>
-		    </select>
-		</form>
-        
-
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.idUsuario}">1</td>
-				    <td th:text="${usuario.username}">Juan</td>
-				    <td th:text="${usuario.correoElectronico}">Pérez</td>
-				    <td th:text="${usuario.rol.nombreRol}">12345678</td>
-                    <td>
-                    
-                       <a th:href="@{|/usuarios/eliminar/${usuario.idUsuario}|}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">
-						    <i class="bi bi-trash"></i>
-						</a>
-						<a th:href="@{|/usuarios/editar/${usuario.idUsuario}|}" class="btn btn-sm btn-warning">
-						    <i class="bi bi-pencil"></i>
-						</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+       <h2>Editar Usuario</h2>
+		    <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="post">
+		        <input type="hidden" th:field="*{idUsuario}" />
+		
+		        <div class="mb-3">
+		            <label for="nombre" class="form-label">Nombre:</label>
+		            <input type="text" class="form-control" th:field="*{username}" required />
+		        </div>
+		
+		        <div class="mb-3">
+		            <label for="correo" class="form-label">Correo:</label>
+		            <input type="email" class="form-control" th:field="*{correoElectronico}" required />
+		        </div>
+		
+		        <!-- Agrega más campos si necesitas -->
+		
+		        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+		        <a th:href="@{/app/usuarios}" class="btn btn-danger">Cancelar</a>
+		    </form>
     </div>
 </main>
 </div>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ingenieriaweb.matriculas3.web.app.models.Rol;
 import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
@@ -35,13 +36,22 @@ public class IndexController {
 		return "index"; 
 		} 
 	
-	@GetMapping("/usuarios" )
-	public String usuarios(Model model) {
+	@GetMapping("/usuarios")
+	public String usuarios(@RequestParam(required = false) Long rol, Model model) {
+	    List<Usuario> usuarios;
 
-	    List<Usuario> usuarios = usuarioService.findAll(); 
-	    model.addAttribute("usuarios", usuarios); 
+	    if (rol != null) {
+	        usuarios = usuarioService.buscarPorRolId(rol);
+	        model.addAttribute("rolSeleccionado", rol);
+	    } else {
+	        usuarios = usuarioService.findAll();
+	        model.addAttribute("rolSeleccionado", null);
+	    }
+
+	    model.addAttribute("usuarios", usuarios);
 	    return "usuarios/index";
 	}
+
 	
 	@GetMapping("/roles" )
 	public String roles(){ 
