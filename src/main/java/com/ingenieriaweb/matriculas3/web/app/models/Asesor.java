@@ -1,56 +1,67 @@
 package com.ingenieriaweb.matriculas3.web.app.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "asesor")
 public class Asesor {
 
-	public int idAsesor;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idAsesor;
 
+    @ManyToOne
+    @JoinColumn(name = "id_persona", referencedColumnName = "idPersona")
     private Persona persona;
 
-
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario")
     private Usuario usuario;
 
+    @Column(nullable = false)
     private Boolean estado = true;
 
-	public Asesor(int idAsesor, Persona persona, Usuario usuario, Boolean estado) {
-		super();
-		this.idAsesor = idAsesor;
-		this.persona = persona;
-		this.usuario = usuario;
-		this.estado = estado;
-	}
+    // Constructor vacío requerido por JPA
+    public Asesor() {
+    }
 
-	public int getIdAsesor() {
-		return idAsesor;
-	}
+    public Asesor(int idAsesor, Persona persona, Usuario usuario, Boolean estado) {
+        this.idAsesor = idAsesor;
+        this.persona = persona;
+        this.usuario = usuario;
+        this.estado = estado;
+    }
 
-	public void setIdAsesor(int idAsesor) {
-		this.idAsesor = idAsesor;
-	}
+    // Getters y Setters
+    public int getIdAsesor() {
+        return idAsesor;
+    }
 
-	public Persona getPersona() {
-		return persona;
-	}
+    public void setIdAsesor(int idAsesor) {
+        this.idAsesor = idAsesor;
+    }
 
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
+    public Persona getPersona() {
+        return persona;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public Boolean getEstado() {
-		return estado;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-    
-    
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
 }

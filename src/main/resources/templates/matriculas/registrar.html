@@ -116,7 +116,7 @@
 		</div>
         <div class="collapse" id="collapseMatriculas">
             <a th:href="@{/matriculas}" class="list-group-item ps-5">*Ver Matrículas</a>
-            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">*Registrar</a>
+            <a th:href="@{/matriculas/nueva}" class="list-group-item ps-5">*Registrar</a>
         </div>
 
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -191,7 +191,54 @@
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
     <div>
-        <p>Contenido predeterminado</p>
+		<div class="container">
+		        <h2 class="mb-4">Registrar Matrícula</h2>
+		        <form action="/matriculas/guardar" method="post">
+		        
+
+		            <div class="mb-3">
+		                <label for="fechaMatricula" class="form-label">Fecha de Matrícula</label>
+		                <input type="date" class="form-control" id="fechaMatricula" name="fechaMatricula">
+		            </div>
+
+		            <div class="mb-3">
+		                <label for="fechaLimitePago" class="form-label">Fecha Límite de Pago</label>
+		                <input type="date" class="form-control" id="fechaLimitePago" name="fechaLimitePago">
+		            </div>
+
+		            <div class="mb-3">
+		                <label for="docente" class="form-label">Docente</label>
+		                <select class="form-select" id="docente" name="docente">
+		                    <option selected disabled>Seleccione un docente</option>
+		                    <option value="1">Docente 1</option>
+		                    <option value="2">Docente 2</option>
+		                </select>
+		            </div>
+
+		            <div class="mb-3">
+		                <label for="periodo" class="form-label">Periodo</label>
+		                <select class="form-select" id="periodo" name="periodo">
+		                    <option selected disabled>Seleccione un periodo</option>
+		                    <option value="2024-I">2024-I</option>
+		                    <option value="2024-II">2024-II</option>
+		                </select>
+		            </div>
+
+		            <div class="mb-3">
+		                <label for="estadoActual" class="form-label">Estado</label>
+		                <input type="number" class="form-control" id="estadoActual" name="estadoActual" placeholder="Ej. 1 para activo, 0 para inactivo">
+		            </div>
+
+		            <div class="form-check mb-3">
+		                <input class="form-check-input" type="checkbox" id="estado" name="estado">
+		                <label class="form-check-label" for="estado">Activo</label>
+		            </div>
+
+					<a href="#" class="btn btn-primary w-100">Guardar Matricula</a>
+						       
+		        </form>
+		    </div>
+
     </div>
 </main>
 </div>

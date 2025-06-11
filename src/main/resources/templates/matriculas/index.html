@@ -191,7 +191,52 @@
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
     <div>
-        <p>Contenido predeterminado</p>
+        <p>Matriculas</p>
+		<div class="container mt-5">
+		  <h2 class="mb-4">Lista de Matrículas</h2>
+		  <table class="table table-bordered table-hover table-striped">
+		    <thead class="table-danger">
+		      <tr>
+		        <th>ID Matrícula</th>
+		        <th>Fecha Matrícula</th>
+		        <th>Fecha Límite de Pago</th>
+		        <th>Docente</th>
+		        <th>Periodo</th>
+		        <th>Estado Actual</th>
+		        <th>Activo</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <td>101</td>
+		        <td>2025-03-01</td>
+		        <td>2025-03-15</td>
+		        <td>Prof. Lucía Rojas</td>
+		        <td>2025-I</td>
+		        <td>1</td>
+		        <td>✔️</td>
+		      </tr>
+		      <tr>
+		        <td>102</td>
+		        <td>2025-03-05</td>
+		        <td>2025-03-20</td>
+		        <td>Prof. Jorge Paredes</td>
+		        <td>2025-I</td>
+		        <td>2</td>
+		        <td>✔️</td>
+		      </tr>
+		      <tr>
+		        <td>103</td>
+		        <td>2025-03-10</td>
+		        <td>2025-03-25</td>
+		        <td>Prof. Sandra León</td>
+		        <td>2025-II</td>
+		        <td>0</td>
+		        <td>❌</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
     </div>
 </main>
 </div>
