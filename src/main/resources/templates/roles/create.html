@@ -190,41 +190,29 @@
    <main th:fragment="contenido">
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Lista de Roles</h2>
-            <a href="/roles/crear" class="btn btn-primary">
-				    <i class="bi bi-person-plus"></i> Nuevo rol
-				</a>
-
+            <h2>Registro de nuevo rol</h2>
         </div>
-
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>ROL</th>
-                    <th>Descripción</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-           <tbody>
-			    <tr th:each="rol : ${roles}">
-			        <td th:text="${rol.idRol}">1</td>
-			        <td th:text="${rol.nombreRol}">Administrador</td>
-			        <td th:text="${rol.descripcion}">Administrador</td>
-			        <td>
-			        <a class="btn btn-sm btn-warning">
-						    <i class="bi bi-pencil"></i>
-						</a>
-			           <a th:href="@{|/roles/eliminar/${rol.idRol}|}" class="btn btn-sm btn-danger"
-						   onclick="return confirm('¿Seguro de eliminar este rol?')">
-						    <i class="bi bi-trash"></i>
-						</a>
-
-			        </td>
-			    </tr>
-			</tbody>
-
-        </table>
+		<form th:action="@{/roles/guardar}" th:object="${rol}" method="post">
+	        <div class="mb-3">
+	            <label for="nombreRol" class="form-label">Nombre del Rol</label>
+	            <input type="text" class="form-control" th:field="*{nombreRol}" required maxlength="50">
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="descripcion" class="form-label">Descripción</label>
+	            <textarea class="form-control" th:field="*{descripcion}" maxlength="255"></textarea>
+	        </div>
+	
+	        <div class="form-check mb-3">
+	            <input class="form-check-input" type="checkbox" th:field="*{estado}" id="estado">
+	            <label class="form-check-label" for="estado">
+	                Activo
+	            </label>
+	        </div>
+	
+	        <button type="submit" class="btn btn-success">Guardar</button>
+	        <a th:href="@{/app/roles}" class="btn btn-danger">Cancelar</a>
+	    </form>
     </div>
 </main>
 </div>
