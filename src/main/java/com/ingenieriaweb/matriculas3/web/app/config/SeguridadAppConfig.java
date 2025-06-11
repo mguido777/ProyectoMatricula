@@ -76,4 +76,11 @@ public class SeguridadAppConfig {
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();
 	    }
+	    
+	    protected void configure(HttpSecurity http) throws Exception {
+	        http
+	            .logout().disable() 
+	            .authorizeRequests()
+	                .anyRequest().authenticated();
+	    }
 }

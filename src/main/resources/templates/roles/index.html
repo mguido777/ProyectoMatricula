@@ -150,11 +150,27 @@
             <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de docentes</a>
         </div>
 
-      
-
-        <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger mt-3">
-            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-        </a>
+      <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
+		    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+		</a>
+		<div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-8 start-50 translate-middle-x mt-3 shadow rounded-3" style="z-index: 1050; width: 400px; text-align: center;">
+		    <p class="mb-3">¿Estás seguro de que deseas cerrar sesión?</p>
+		    <a href="/salir" class="btn btn-danger me-2">Sí, salir</a>
+		    <button class="btn btn-warning" onclick="ocultarConfirmacionCerrarSesion()">No, quedarme</button>
+		</div>
+		
+		<script>
+		    function mostrarConfirmacionCerrarSesion(event) {
+		        event.preventDefault(); // evita que se redirija
+		        const div = document.getElementById('confirmacionCerrarSesion');
+		        div.classList.remove('d-none');
+		    }
+		
+		    function ocultarConfirmacionCerrarSesion() {
+		        const div = document.getElementById('confirmacionCerrarSesion');
+		        div.classList.add('d-none');
+		    }
+		</script>
     </div>
 </div>
 
@@ -162,7 +178,7 @@
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
+            <a class="navbar-brand" href="#">Sistema de matrículas </a>
 			<p>Hola, <span sec:authentication="name"></span> 👋</p>
 			<p>Tu rol: <span sec:authentication="authorities"></span></p>
 			
@@ -175,8 +191,8 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de Roles</h2>
-            <a href="/personas/nuevo" class="btn btn-primary">
-				    <i class="bi bi-person-plus"></i> Nueva Persona
+            <a href="/roles/crear" class="btn btn-primary">
+				    <i class="bi bi-person-plus"></i> Nuevo rol
 				</a>
 
         </div>
@@ -185,28 +201,29 @@
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>DNI</th>
-                    <th>Email</th>
+                    <th>ROL</th>
+                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr th:each="persona : ${personas}">
-                    <td th:text="${persona.idPersona}">1</td>
-				    <td th:text="${persona.nombres}">Juan</td>
-				    <td th:text="${persona.apellidos}">Pérez</td>
-				    <td th:text="${persona.dni}">12345678</td>
-				    <td th:text="${persona.correo}">juan@example.com</td>
-                    <td>
-                    
-                       <a th:href="@{|/personas/eliminar/${persona.idPersona}|}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">
+           <tbody>
+			    <tr th:each="rol : ${roles}">
+			        <td th:text="${rol.idRol}">1</td>
+			        <td th:text="${rol.nombreRol}">Administrador</td>
+			        <td th:text="${rol.descripcion}">Administrador</td>
+			        <td>
+			        <a class="btn btn-sm btn-warning">
+						    <i class="bi bi-pencil"></i>
+						</a>
+			           <a th:href="@{|/roles/eliminar/${rol.idRol}|}" class="btn btn-sm btn-danger"
+						   onclick="return confirm('¿Seguro de eliminar este rol?')">
 						    <i class="bi bi-trash"></i>
 						</a>
-                    </td>
-                </tr>
-            </tbody>
+
+			        </td>
+			    </tr>
+			</tbody>
+
         </table>
     </div>
 </main>

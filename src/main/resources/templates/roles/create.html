@@ -93,8 +93,10 @@
         
         <div class="collapse" id="collapseUsuarios">
             <a th:href="@{/app/usuarios}" class="list-group-item ps-5">*Lista de Usuarios</a>
-            <a th:href="@{/app/roles}" class="list-group-item ps-5">*Roles</a>
+            <a th:href="@{app/roles}" class="list-group-item ps-5">*Roles</a>
         </div>
+		
+		
 		
 		<div sec:authorize="hasAnyRole('Administrador', 'Docente')">
         <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseCursos">
@@ -147,7 +149,8 @@
         <div class="collapse" id="collapseDocentes">
             <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de docentes</a>
         </div>
-		<a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
+
+      <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
 		    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
 		</a>
 		<div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-8 start-50 translate-middle-x mt-3 shadow rounded-3" style="z-index: 1050; width: 400px; text-align: center;">
@@ -175,8 +178,8 @@
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
-			<p>Bienvenido</p>
+            <a class="navbar-brand" href="#">Sistema de matrículas </a>
+			<p>Hola, <span sec:authentication="name"></span> 👋</p>
 			<p>Tu rol: <span sec:authentication="authorities"></span></p>
 			
 			
@@ -185,54 +188,31 @@
 
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
-   <div class="container mt-4">
+    <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Lista de usuarios</h2>
-            <a href="/usuarios/crear" class="btn btn-primary">
-				    <i class="bi bi-person-plus"></i> Nuevo usuario
-				</a>
-
+            <h2>Registro de nuevo rol</h2>
         </div>
-        
-        <form method="get" th:action="@{/app/usuarios}" class="mb-3">
-		    <label for="rol">Filtrar por Rol:</label>
-		    <select name="rol" id="rol" class="form-select w-auto d-inline-block mx-2" onchange="this.form.submit()">
-		        <option th:selected="${rolSeleccionado == null}" value="">-- Todos --</option>
-		        <option th:value="1" th:selected="${rolSeleccionado == 1}">Administrador</option>
-		        <option th:value="2" th:selected="${rolSeleccionado == 2}">Docente</option>
-		        <option th:value="3" th:selected="${rolSeleccionado == 3}">Asesor</option>
-		    </select>
-		</form>
-        
-
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.idUsuario}">1</td>
-				    <td th:text="${usuario.username}">Juan</td>
-				    <td th:text="${usuario.correoElectronico}">Pérez</td>
-				    <td th:text="${usuario.rol.nombreRol}">12345678</td>
-                    <td>
-                    
-                       <a th:href="@{|/usuarios/eliminar/${usuario.idUsuario}|}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">
-						    <i class="bi bi-trash"></i>
-						</a>
-						<a th:href="@{|/usuarios/editar/${usuario.idUsuario}|}" class="btn btn-sm btn-warning">
-						    <i class="bi bi-pencil"></i>
-						</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+		<form th:action="@{/roles/guardar}" th:object="${rol}" method="post">
+	        <div class="mb-3">
+	            <label for="nombreRol" class="form-label">Nombre del Rol</label>
+	            <input type="text" class="form-control" th:field="*{nombreRol}" required maxlength="50">
+	        </div>
+	
+	        <div class="mb-3">
+	            <label for="descripcion" class="form-label">Descripción</label>
+	            <textarea class="form-control" th:field="*{descripcion}" maxlength="255"></textarea>
+	        </div>
+	
+	        <div class="form-check mb-3">
+	            <input class="form-check-input" type="checkbox" th:field="*{estado}" id="estado">
+	            <label class="form-check-label" for="estado">
+	                Activo
+	            </label>
+	        </div>
+	
+	        <button type="submit" class="btn btn-success">Guardar</button>
+	        <a th:href="@{/app/roles}" class="btn btn-danger">Cancelar</a>
+	    </form>
     </div>
 </main>
 </div>
