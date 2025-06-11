@@ -185,28 +185,25 @@
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>DNI</th>
-                    <th>Email</th>
+                    <th>ROL</th>
+                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr th:each="persona : ${personas}">
-                    <td th:text="${persona.idPersona}">1</td>
-				    <td th:text="${persona.nombres}">Juan</td>
-				    <td th:text="${persona.apellidos}">Pérez</td>
-				    <td th:text="${persona.dni}">12345678</td>
-				    <td th:text="${persona.correo}">juan@example.com</td>
-                    <td>
-                    
-                       <a th:href="@{|/personas/eliminar/${persona.idPersona}|}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">
-						    <i class="bi bi-trash"></i>
-						</a>
-                    </td>
-                </tr>
-            </tbody>
+           <tbody>
+			    <tr th:each="rol : ${roles}">
+			        <td th:text="${rol.idRol}">1</td>
+			        <td th:text="${rol.nombreRol}">Administrador</td>
+			        <td th:text="${rol.descripcion}">Administrador</td>
+			        <td>
+			            <a th:href="@{|/roles/eliminar/${rol.idRol}|}" class="btn btn-sm btn-danger"
+			               onclick="return confirm('¿Seguro de eliminar este rol?')">
+			                <i class="bi bi-trash"></i>
+			            </a>
+			        </td>
+			    </tr>
+			</tbody>
+
         </table>
     </div>
 </main>

@@ -53,10 +53,12 @@ public class IndexController {
 	}
 
 	
-	@GetMapping("/roles" )
-	public String roles(){ 
-		return "roles.index"; 
-		} 
+	@GetMapping("/roles")
+	public String roles(Model model) {
+	    List<Rol> roles = rolService.findAll();
+	    model.addAttribute("roles", roles);
+	    return "roles/index";
+	}
 	
 	@GetMapping("/personas" )
 	public String personas(Model model) {
