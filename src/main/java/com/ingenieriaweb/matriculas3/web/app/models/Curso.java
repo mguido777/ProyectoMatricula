@@ -1,18 +1,29 @@
 package com.ingenieriaweb.matriculas3.web.app.models;
 
+import jakarta.persistence.*;
+
+
 public class Curso {
-private Integer idCurso;
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idCurso;
     
+	@Column(nullable = false, unique = true, length = 50)
     private String nombre;
     
+	@Column(nullable = false, length = 255)
     private String descripcion;
     
     private Integer duracionSemanas;
     
     private double costo;
     
+    @ManyToOne
+    @JoinColumn(name = "descuento_id")
     private Descuento descuento;
     
+    @Column(nullable = false)
     private Boolean estado;
 
 	public Curso(Integer idCurso, String nombre, String descripcion, Integer duracionSemanas, double costo,

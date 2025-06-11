@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Docente</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 1rem;
+            overflow-y: auto;
+        }
+
+        .sidebar h4 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar .list-group-item {
+            background-color: transparent;
+            color: #adb5bd;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .sidebar .list-group-item:hover,
+        .sidebar .list-group-item:focus,
+        .sidebar .list-group-item.active {
+            background-color: #495057;
+            color: #fff;
+        }
+
+        .sidebar .list-group-item i {
+            margin-right: 8px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            min-height: 100vh;
+            background-color: #f1f3f5;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        main {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h4 class="text-center">Sistema CP</h4>
+    <div class="list-group list-group-flush" id="sidebarMenu">
+        <!-- Sidebar items igual que antes (puedes copiar directamente desde tu index si prefieres) -->
+        <a th:href="@{/app/docentes}" class="list-group-item list-group-item-action">
+            <i class="bi bi-arrow-left-circle"></i> Volver a la lista
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    <nav class="navbar navbar-expand-lg px-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
+            <p class="mb-0">Hola, <span sec:authentication="name"></span> 👋</p>
+            <p class="mb-0 ms-3">Rol: <span sec:authentication="authorities"></span></p>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h2 class="mb-4">Editar Docente</h2>
+            <form th:action="@{'/app/docentes/editar/' + ${docente.idDocente}}" th:object="${docente}" method="post" class="row g-3">
+
+                <div class="col-md-6">
+                    <label for="nombres" class="form-label">Nombres:</label>
+                    <input type="text" id="nombres" name="persona.nombres" th:value="${docente.persona.nombres}" class="form-control" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="apellidos" class="form-label">Apellidos:</label>
+                    <input type="text" id="apellidos" name="persona.apellidos" th:value="${docente.persona.apellidos}" class="form-control" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">DNI:</label>
+                    <input type="text" th:value="${docente.persona.dni}" class="form-control" readonly />
+                    <input type="hidden" name="persona.dni" th:value="${docente.persona.dni}" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" id="direccion" name="persona.direccion" th:value="${docente.persona.direccion}" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="telefono" class="form-label">Teléfono:</label>
+                    <input type="text" id="telefono" name="persona.telefono" th:value="${docente.persona.telefono}" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="correo" class="form-label">Correo:</label>
+                    <input type="email" id="correo" name="persona.correo" th:value="${docente.persona.correo}" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <select id="estado" name="estado">
+					    <option value="true" th:selected="${docente.estado} == true">Activo</option>
+					    <option value="false" th:selected="${docente.estado} == false">Inactivo</option>
+					</select>
+                </div>
+
+                <input type="hidden" name="persona.idPersona" th:value="${docente.persona.idPersona}" />
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar cambios
+                    </button>
+                    <a th:href="@{/app/docentes}" class="btn btn-secondary ms-2">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

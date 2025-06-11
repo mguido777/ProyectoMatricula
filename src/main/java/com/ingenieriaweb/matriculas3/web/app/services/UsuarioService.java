@@ -13,7 +13,8 @@ import com.ingenieriaweb.matriculas3.web.app.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-	 @Autowired
+	
+	 	@Autowired
 	    private UsuarioRepository usuarioRepository;
 
 	    @Autowired
