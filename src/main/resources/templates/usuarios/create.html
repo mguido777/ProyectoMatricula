@@ -93,7 +93,7 @@
         
         <div class="collapse" id="collapseUsuarios">
             <a th:href="@{/app/usuarios}" class="list-group-item ps-5">*Lista de Usuarios</a>
-            <a th:href="@{/app/roles}" class="list-group-item ps-5">*Roles</a>
+            <a th:href="@{app/roles}" class="list-group-item ps-5">*Roles</a>
         </div>
 		
 		
@@ -105,11 +105,7 @@
 		</div>
 		
         <div class="collapse" id="collapseCursos">
-<<<<<<< HEAD
-            <a th:href="@{/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
-=======
-            <a th:href="@{/app/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
->>>>>>> 6f75a5fe19ebce9536e14ec7041c3d5b248cf1fd
+            <a th:href="@{/matriculas}" class="list-group-item ps-5">*Gestionar cursos</a>
         </div>
 
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -120,7 +116,7 @@
 		</div>
         <div class="collapse" id="collapseMatriculas">
             <a th:href="@{/matriculas}" class="list-group-item ps-5">*Ver Matrículas</a>
-            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">*Registrar</a>
+            <a th:href="@{/matriculas/nueva}" class="list-group-item ps-5">*Registrar</a>
         </div>
 
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -141,7 +137,7 @@
         </a>
 		</div>
         <div class="collapse" id="collapseAsesores">
-            <a th:href="@{/asesores}" class="list-group-item ps-5">*Lista de asesores</a>
+            <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de asesores</a>
         </div>
 		
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -151,10 +147,10 @@
         </a>
 		</div>
         <div class="collapse" id="collapseDocentes">
-            <a th:href="@{/app/docentes}" class="list-group-item ps-5">*Lista de docentes</a>
+            <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de docentes</a>
         </div>
-			
-		<a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
+
+      <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
 		    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
 		</a>
 		<div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-8 start-50 translate-middle-x mt-3 shadow rounded-3" style="z-index: 1050; width: 400px; text-align: center;">
@@ -175,8 +171,6 @@
 		        div.classList.add('d-none');
 		    }
 		</script>
-		
-
     </div>
 </div>
 
@@ -184,7 +178,7 @@
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
+            <a class="navbar-brand" href="#">Sistema de matrículas </a>
 			<p>Hola, <span sec:authentication="name"></span> 👋</p>
 			<p>Tu rol: <span sec:authentication="authorities"></span></p>
 			
@@ -194,8 +188,49 @@
 
     <!-- Contenido dinámico -->
    <main th:fragment="contenido">
-    <div>
-        <p>Contenido predeterminado</p>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Registro de nuevo usuario</h2>
+        </div>
+		<form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+		    <div class="mb-3">
+		        <label for="username" class="form-label">Usuario</label>
+		        <input type="text" class="form-control" th:field="*{username}" required maxlength="50">
+		    </div>
+		
+		    <div class="mb-3">
+		        <label for="passwordHash" class="form-label">Contraseña</label>
+		        <input type="password" class="form-control" th:field="*{passwordHash}" required minlength="6">
+		    </div>
+		
+		    <div class="mb-3">
+		        <label for="correoElectronico" class="form-label">Correo Electrónico</label>
+		        <input type="email" class="form-control" th:field="*{correoElectronico}" maxlength="100">
+		    </div>
+		
+		    <div class="mb-3">
+		        <label for="telefono" class="form-label">Teléfono</label>
+		        <input type="text" class="form-control" th:field="*{telefono}" maxlength="15">
+		    </div>
+		
+		    <div class="mb-3">
+		        <label for="rol" class="form-label">Rol</label>
+		        <select class="form-select" th:field="*{rol.idRol}" required>
+		            <option th:each="r : ${roles}" th:value="${r.idRol}" th:text="${r.nombreRol}"></option>
+		        </select>
+		    </div>
+		
+		    <div class="form-check mb-3">
+		        <input class="form-check-input" type="checkbox" th:field="*{estado}" id="estado">
+		        <label class="form-check-label" for="estado">
+		            Activo
+		        </label>
+		    </div>
+		
+		    <button type="submit" class="btn btn-success">Guardar</button>
+		    <a th:href="@{/app/usuarios}" class="btn btn-danger">Cancelar</a>
+		</form>
+
     </div>
 </main>
 </div>

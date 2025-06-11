@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ingenieriaweb.matriculas3.web.app.models.Rol;
 import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
+import com.ingenieriaweb.matriculas3.web.app.models.Docente;
 import com.ingenieriaweb.matriculas3.web.app.services.PersonaService;
 import com.ingenieriaweb.matriculas3.web.app.services.RolService;
 import com.ingenieriaweb.matriculas3.web.app.services.UsuarioService;
+import com.ingenieriaweb.matriculas3.web.app.services.DocenteService;
 
 
 @Controller
@@ -30,11 +32,14 @@ public class IndexController {
 	@Autowired
     private UsuarioService usuarioService;
 	
+	@Autowired
+	private DocenteService docenteService;
+
 	
 	@GetMapping({"/", "/index" })
 	public String index(){ 
 		return "index"; 
-		} 
+	} 
 	
 	@GetMapping("/usuarios")
 	public String usuarios(@RequestParam(required = false) Long rol, Model model) {
@@ -67,5 +72,4 @@ public class IndexController {
 	    model.addAttribute("personas", personas); 
 	    return "personas";
 	}
-	
 }

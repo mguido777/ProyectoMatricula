@@ -176,7 +176,7 @@
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
-			<p>Hola, <span sec:authentication="name"></span> 👋</p>
+			<p>Bienvenido</p>
 			<p>Tu rol: <span sec:authentication="authorities"></span></p>
 			
 			
@@ -188,19 +188,19 @@
    <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Lista de usuarios</h2>
-            <a href="/personas/nuevo" class="btn btn-primary">
+            <a href="/usuarios/crear" class="btn btn-primary">
 				    <i class="bi bi-person-plus"></i> Nuevo usuario
 				</a>
 
         </div>
         
-        <form method="get" th:action="@{/usuarios}" class="mb-3">
+        <form method="get" th:action="@{/app/usuarios}" class="mb-3">
 		    <label for="rol">Filtrar por Rol:</label>
 		    <select name="rol" id="rol" class="form-select w-auto d-inline-block mx-2" onchange="this.form.submit()">
 		        <option th:selected="${rolSeleccionado == null}" value="">-- Todos --</option>
-		        <option th:value="1" th:selected="${rolSeleccionado == 1}">Docente</option>
-		        <option th:value="2" th:selected="${rolSeleccionado == 2}">Asesor</option>
-		        <option th:value="3" th:selected="${rolSeleccionado == 3}">Administrador</option>
+		        <option th:value="1" th:selected="${rolSeleccionado == 1}">Administrador</option>
+		        <option th:value="2" th:selected="${rolSeleccionado == 2}">Docente</option>
+		        <option th:value="3" th:selected="${rolSeleccionado == 3}">Asesor</option>
 		    </select>
 		</form>
         

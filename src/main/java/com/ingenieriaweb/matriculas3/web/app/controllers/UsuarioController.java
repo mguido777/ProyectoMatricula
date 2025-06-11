@@ -1,6 +1,7 @@
 package com.ingenieriaweb.matriculas3.web.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ingenieriaweb.matriculas3.web.app.models.Rol;
 import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
+import com.ingenieriaweb.matriculas3.web.app.services.RolService;
 import com.ingenieriaweb.matriculas3.web.app.services.UsuarioService;
 
 @Controller
@@ -24,17 +26,24 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 	
 	@Autowired
+    private RolService rolService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
-	 @GetMapping("/nuevo")
-	    public String nuevoUsuario(Model model) {
-	        model.addAttribute("titulo", "Nueva Persona");
-	        model.addAttribute("persona", new Usuario());
-	        return "personas/nueva";
+	
+		@GetMapping("/crear")
+	    public String mostrarFormularioCrear(Model model) {
+	        model.addAttribute("usuario", new Usuario());
+	        model.addAttribute("roles", rolService.findAll());
+	        return "usuarios/create"; // carpeta templates/usuarios/create.html
 	    }
 
-	    @PostMapping("/guardar")
+		 @PostMapping("/guardar")
 	    public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario) {
-	    	usuarioService.save(usuario);
+	        String hashed = new BCryptPasswordEncoder().encode(usuario.getPasswordHash());
+	        usuario.setPasswordHash(hashed);
+
+	        usuarioService.save(usuario);
 	        return "redirect:/app/usuarios";
 	    }
 

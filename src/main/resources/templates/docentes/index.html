@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
-    <title th:text="${titulo}"></title>
+    <title th:text="'Lista de Docentes'"></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -73,8 +73,6 @@
     </style>
 </head>
 <body>
-
-
 <div class="sidebar">
     <h4 class="text-center" th:text="${titulo}" ></h4>
     <div class="list-group list-group-flush" id="sidebarMenu">
@@ -105,11 +103,7 @@
 		</div>
 		
         <div class="collapse" id="collapseCursos">
-<<<<<<< HEAD
-            <a th:href="@{/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
-=======
             <a th:href="@{/app/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
->>>>>>> 6f75a5fe19ebce9536e14ec7041c3d5b248cf1fd
         </div>
 
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -120,7 +114,7 @@
 		</div>
         <div class="collapse" id="collapseMatriculas">
             <a th:href="@{/matriculas}" class="list-group-item ps-5">*Ver Matrículas</a>
-            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">*Registrar</a>
+            <a th:href="@{/matriculas/nueva}" class="list-group-item ps-5">*Registrar</a>
         </div>
 
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -141,7 +135,7 @@
         </a>
 		</div>
         <div class="collapse" id="collapseAsesores">
-            <a th:href="@{/asesores}" class="list-group-item ps-5">*Lista de asesores</a>
+            <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de asesores</a>
         </div>
 		
 		<!-- Aca autorizo para que roles se muestran las opciones -->
@@ -153,54 +147,69 @@
         <div class="collapse" id="collapseDocentes">
             <a th:href="@{/app/docentes}" class="list-group-item ps-5">*Lista de docentes</a>
         </div>
-			
-		<a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
-		    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-		</a>
-		<div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-8 start-50 translate-middle-x mt-3 shadow rounded-3" style="z-index: 1050; width: 400px; text-align: center;">
-		    <p class="mb-3">¿Estás seguro de que deseas cerrar sesión?</p>
-		    <a href="/salir" class="btn btn-danger me-2">Sí, salir</a>
-		    <button class="btn btn-warning" onclick="ocultarConfirmacionCerrarSesion()">No, quedarme</button>
-		</div>
-		
-		<script>
-		    function mostrarConfirmacionCerrarSesion(event) {
-		        event.preventDefault(); // evita que se redirija
-		        const div = document.getElementById('confirmacionCerrarSesion');
-		        div.classList.remove('d-none');
-		    }
-		
-		    function ocultarConfirmacionCerrarSesion() {
-		        const div = document.getElementById('confirmacionCerrarSesion');
-		        div.classList.add('d-none');
-		    }
-		</script>
-		
 
+      
+
+        <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger mt-3">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
     </div>
 </div>
 
-<!-- Main Content -->
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
-			<p>Hola, <span sec:authentication="name"></span> 👋</p>
-			<p>Tu rol: <span sec:authentication="authorities"></span></p>
-			
-			
+            <p class="mb-0">Hola, <span sec:authentication="name"></span> 👋</p>
+            <p class="mb-0 ms-3">Rol: <span sec:authentication="authorities"></span></p>
         </div>
     </nav>
 
-    <!-- Contenido dinámico -->
-   <main th:fragment="contenido">
-    <div>
-        <p>Contenido predeterminado</p>
-    </div>
-</main>
+    <main>
+        <div class="container-fluid">
+            <h2 class="mb-4">Lista de Docentes</h2>
+            
+
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="docente : ${docentes}">
+                        <td th:text="${docente.idDocente}"></td>
+                        <td th:text="${docente.persona.nombres + ' ' + docente.persona.apellidos}"></td>
+                        <td th:text="${docente.usuario.username}"></td>
+                        <td>
+                            <span class="badge bg-success" th:if="${docente.estado}">Activo</span>
+                            <span class="badge bg-secondary" th:if="${!docente.estado}">Inactivo</span>
+                        </td>
+                        <td>
+			                <!-- Botón Editar -->
+			                <a th:href="@{/app/docentes/editar/{id}(id=${docente.idDocente})}" class="btn btn-sm btn-primary">
+			                    <i class="bi bi-pencil-square"></i>
+			                </a>
+			
+			                <!-- Botón Eliminar con form POST -->
+			                <form th:action="@{/app/docentes/eliminar/{id}(id=${docente.idDocente})}" method="post" style="display:inline;">
+			                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este docente?')">
+			                        <i class="bi bi-trash"></i>
+			                    </button>
+			                </form>
+			            </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
