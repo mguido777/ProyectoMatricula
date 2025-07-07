@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ingenieriaweb.matriculas3.web.app.models.Rol;
 import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
 import com.ingenieriaweb.matriculas3.web.app.models.Docente;
+import com.ingenieriaweb.matriculas3.web.app.models.Pago;
 import com.ingenieriaweb.matriculas3.web.app.services.PersonaService;
 import com.ingenieriaweb.matriculas3.web.app.services.RolService;
 import com.ingenieriaweb.matriculas3.web.app.services.UsuarioService;
@@ -72,4 +73,6 @@ public class IndexController {
 	    model.addAttribute("personas", personas); 
 	    return "personas";
 	}
+	
+
 }

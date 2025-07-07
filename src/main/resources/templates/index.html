@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title th:text="${titulo}"></title>
@@ -9,43 +9,46 @@
 
     <style>
         body {
-            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
         }
 
         .sidebar {
             width: 250px;
             height: 100vh;
-            background-color: #343a40;
+            background-color: #212529;
             color: #fff;
             position: fixed;
             top: 0;
             left: 0;
-            padding-top: 1rem;
+            padding: 1rem 0;
             overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
 
         .sidebar h4 {
-            color: #fff;
+            text-align: center;
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
+            color: #ffffff;
         }
 
         .sidebar .list-group-item {
             background-color: transparent;
             color: #adb5bd;
             border: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .sidebar .list-group-item:hover,
-        .sidebar .list-group-item:focus,
         .sidebar .list-group-item.active {
-            background-color: #495057;
+            background-color: #0d6efd;
             color: #fff;
         }
 
         .sidebar .list-group-item i {
-            margin-right: 8px;
+            margin-right: 10px;
         }
 
         .main-content {
@@ -57,10 +60,12 @@
         .navbar {
             background-color: #fff;
             border-bottom: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .navbar-brand {
             font-weight: bold;
+            color: #0d6efd;
         }
 
         .navbar-text {
@@ -70,137 +75,138 @@
         main {
             padding: 2rem;
         }
+
+        .alert {
+            z-index: 1050;
+        }
+
+        .sidebar a.section-title {
+            color: #6c757d;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-left: 1.25rem;
+            margin-top: 1rem;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-
 <div class="sidebar">
-    <h4 class="text-center" th:text="${titulo}" ></h4>
+    <h4 th:text="${titulo}">Sistema</h4>
+
     <div class="list-group list-group-flush" id="sidebarMenu">
-    
-   
-        <div class="collapse" id="collapseDashboard">
-            <a th:href="@{/dashboard}" class="list-group-item ps-5">Inicio</a>
+
+        <!-- Inicio -->
+        <a th:href="@{/dashboard}" class="list-group-item">
+            <i class="bi bi-house-door"></i> Inicio
+        </a>
+
+        <!-- Usuarios -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseUsuarios">
+                <i class="bi bi-people"></i> Usuarios
+            </a>
         </div>
-		
-		
-		<div sec:authorize="hasRole('Administrador')">
-        	<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseUsuarios">
-            	<i class="bi bi-people"></i> Usuarios
-        	</a>
-		</div>
-        
         <div class="collapse" id="collapseUsuarios">
-            <a th:href="@{/app/usuarios}" class="list-group-item ps-5">*Lista de Usuarios</a>
-            <a th:href="@{/app/roles}" class="list-group-item ps-5">*Roles</a>
+            <a th:href="@{/app/usuarios}" class="list-group-item ps-5">Lista de Usuarios</a>
+            <a th:href="@{/app/roles}" class="list-group-item ps-5">Roles</a>
         </div>
-		
-		
-		
-		<div sec:authorize="hasAnyRole('Administrador', 'Docente')">
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseCursos">
-            <i class="bi bi-journal-check"></i> Cursos
-        </a>
-		</div>
-		
+
+        <!-- Cursos -->
+        <div sec:authorize="hasAnyRole('Administrador', 'Docente')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseCursos">
+                <i class="bi bi-journal-check"></i> Cursos
+            </a>
+        </div>
         <div class="collapse" id="collapseCursos">
-<<<<<<< HEAD
-            <a th:href="@{/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
-=======
-            <a th:href="@{/app/cursos}" class="list-group-item ps-5">*Gestionar cursos</a>
->>>>>>> 6f75a5fe19ebce9536e14ec7041c3d5b248cf1fd
+            <a th:href="@{/cursos}" class="list-group-item ps-5">Gestionar Cursos</a>
+            <a th:href="@{/app/cursos}" class="list-group-item ps-5">Otra Gestión</a>
         </div>
 
-		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasRole('Administrador')">
-		<a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseMatriculas">
-            <i class="bi bi-journal-check"></i> Matrículas
-        </a>
-		</div>
+        <!-- Matrículas -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseMatriculas">
+                <i class="bi bi-person-badge"></i> Matrículas
+            </a>
+        </div>
         <div class="collapse" id="collapseMatriculas">
-            <a th:href="@{/matriculas}" class="list-group-item ps-5">*Ver Matrículas</a>
-            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">*Registrar</a>
+            <a th:href="@{/matriculas}" class="list-group-item ps-5">Ver Matrículas</a>
+            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">Registrar</a>
         </div>
 
-		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasRole('Administrador')">
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapsePagos">
-            <i class="bi bi-cash-coin"></i> Pagos
-        </a>
-		</div>
+        <!-- Pagos -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapsePagos">
+                <i class="bi bi-cash-coin"></i> Pagos
+            </a>
+        </div>
         <div class="collapse" id="collapsePagos">
-            <a th:href="@{/pagos}" class="list-group-item ps-5">*Lista de Pagos</a>
-            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">*Validar Pagos</a>
+            <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de Pagos</a>
+            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">Validar Pagos</a>
         </div>
-		
-		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasRole('Administrador')">
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseAsesores">
-            <i class="bi bi-people"></i> Asesores
-        </a>
-		</div>
-        <div class="collapse" id="collapseAsesores">
-            <a th:href="@{/asesores}" class="list-group-item ps-5">*Lista de asesores</a>
-        </div>
-		
-		<!-- Aca autorizo para que roles se muestran las opciones -->
-		<div sec:authorize="hasRole('Administrador')">
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapseDocentes">
-            <i class="bi bi-people"></i> Docentes
-        </a>
-		</div>
-        <div class="collapse" id="collapseDocentes">
-            <a th:href="@{/app/docentes}" class="list-group-item ps-5">*Lista de docentes</a>
-        </div>
-			
-		<a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
-		    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-		</a>
-		<div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-8 start-50 translate-middle-x mt-3 shadow rounded-3" style="z-index: 1050; width: 400px; text-align: center;">
-		    <p class="mb-3">¿Estás seguro de que deseas cerrar sesión?</p>
-		    <a href="/salir" class="btn btn-danger me-2">Sí, salir</a>
-		    <button class="btn btn-warning" onclick="ocultarConfirmacionCerrarSesion()">No, quedarme</button>
-		</div>
-		
-		<script>
-		    function mostrarConfirmacionCerrarSesion(event) {
-		        event.preventDefault(); // evita que se redirija
-		        const div = document.getElementById('confirmacionCerrarSesion');
-		        div.classList.remove('d-none');
-		    }
-		
-		    function ocultarConfirmacionCerrarSesion() {
-		        const div = document.getElementById('confirmacionCerrarSesion');
-		        div.classList.add('d-none');
-		    }
-		</script>
-		
 
+        <!-- Asesores -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseAsesores">
+                <i class="bi bi-person-workspace"></i> Asesores
+            </a>
+        </div>
+        <div class="collapse" id="collapseAsesores">
+            <a th:href="@{/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
+        </div>
+
+        <!-- Docentes -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseDocentes">
+                <i class="bi bi-mortarboard"></i> Docentes
+            </a>
+        </div>
+        <div class="collapse" id="collapseDocentes">
+            <a th:href="@{/app/docentes}" class="list-group-item ps-5">Lista de Docentes</a>
+        </div>
+
+        <!-- Cerrar sesión -->
+        <a href="#" class="list-group-item text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
+
+        <div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-0 start-50 translate-middle-x mt-5 shadow rounded-3" style="width: 400px; text-align: center;">
+            <p class="mb-3">¿Estás seguro de que deseas cerrar sesión?</p>
+            <a href="/salir" class="btn btn-danger me-2">Sí, salir</a>
+            <button class="btn btn-secondary" onclick="ocultarConfirmacionCerrarSesion()">No, quedarme</button>
+        </div>
+
+        <script>
+            function mostrarConfirmacionCerrarSesion(event) {
+                event.preventDefault();
+                document.getElementById('confirmacionCerrarSesion').classList.remove('d-none');
+            }
+
+            function ocultarConfirmacionCerrarSesion() {
+                document.getElementById('confirmacionCerrarSesion').classList.add('d-none');
+            }
+        </script>
     </div>
 </div>
 
-<!-- Main Content -->
+<!-- Contenido principal -->
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
-			<p>Hola, <span sec:authentication="name"></span> 👋</p>
-			<p>Tu rol: <span sec:authentication="authorities"></span></p>
-			
-			
+            <a class="navbar-brand" href="#">Sistema de Matrículas</a>
+            <span class="navbar-text">Tu rol: <span sec:authentication="authorities"></span></span>
         </div>
     </nav>
 
-    <!-- Contenido dinámico -->
-   <main th:fragment="contenido">
-    <div>
-        <p>Contenido predeterminado</p>
-    </div>
-</main>
+    <main th:fragment="contenido">
+        <div class="container mt-4">
+            <p class="text-muted">Contenido predeterminado</p>
+        </div>
+    </main>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

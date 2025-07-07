@@ -1,20 +1,47 @@
 package com.ingenieriaweb.matriculas3.web.app.models;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "matricula")
 public class Matricula {
 
-		private Integer idMatricula;
-	    
-	    private String fechaMatricula;
-	    
-	    private String fechaLimitePago;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_matricula")
+    private Integer idMatricula;
 
-	    private Docente docente;
-	
-	    private Periodo periodo;
-	    
-	    private Integer estadoActual;
-	    
-	    private Boolean estado;
+    @Column(name = "fecha_matricula", nullable = false)
+    private String fechaMatricula;
+
+    @Column(name = "fecha_limite_pago", nullable = false)
+    private String fechaLimitePago;
+
+    @ManyToOne
+    @JoinColumn(name = "docente_id", nullable = false)
+    private Docente docente;
+
+    @ManyToOne
+    @JoinColumn(name = "periodo_id", nullable = false)
+    private Periodo periodo;
+
+    @Column(name = "estado_actual", nullable = false)
+    private Integer estadoActual;
+
+    @Column(name = "estado", nullable = false)
+    private Boolean estado;
+
+    public Matricula() {
+    }
 
 		public Matricula(Integer idMatricula, String fechaMatricula, String fechaLimitePago, Docente docente,
 				Periodo periodo, Integer estadoActual, Boolean estado) {
