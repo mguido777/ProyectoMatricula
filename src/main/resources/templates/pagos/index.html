@@ -123,7 +123,7 @@
         </div>
         <div class="collapse" id="collapsePagos">
             <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de Pagos</a>
-            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">Validar Pagos</a>
+            <a class="list-group-item ps-5">Validar Pagos</a>
         </div>
 
         <!-- Asesores -->
@@ -215,7 +215,7 @@
 							</td>
 
 				       <td>
-				      <a href="#" class="btn btn-sm btn-success">Validar</a>
+				      <a th:href="@{/pagos/show/{id}(id=${pago.idPago})}" class="btn btn-sm btn-success">Validar</a>
 				       
 						  <a th:href="@{/pagos/eliminar/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger me-1" onclick="return confirm('¿Eliminar pago?')">Eliminar</a>
 						</td>

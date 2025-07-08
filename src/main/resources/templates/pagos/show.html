@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Detalles del Pago'"></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .sidebar {
+            width: 220px; /* Más compacto */
+            height: 100vh;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 1rem; /* Menos padding */
+            overflow-y: auto;
+            box-shadow: 3px 0 8px rgba(0,0,0,0.2);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar h4 {
+            color: #fff;
+            margin-bottom: 1.5rem; /* Menos margen */
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 1.1rem; /* Título un poco más pequeño */
+        }
+
+        .sidebar .list-group-item {
+            background-color: transparent;
+            color: #bdc3c7;
+            border: none;
+            transition: all 0.3s ease;
+            padding: 10px 20px; /* Menos padding */
+            border-radius: 8px; /* Ligeramente menos redondeado */
+            margin: 0 10px 4px 10px; /* Menos margen */
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem; /* Fuente más pequeña */
+        }
+
+        .sidebar .list-group-item:hover,
+        .sidebar .list-group-item:focus,
+        .sidebar .list-group-item.active {
+            background-color: #34495e;
+            color: #fff;
+            transform: translateX(5px); /* Menor efecto */
+            box-shadow: inset 3px 0 0 #3498db;
+        }
+
+        .sidebar .list-group-item i {
+            margin-right: 10px; /* Menos margen */
+            font-size: 1rem; /* Icono más pequeño */
+        }
+
+        .main-content {
+            margin-left: 220px; /* Ajuste al ancho del sidebar */
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* Sombra más sutil */
+            padding: 1rem 2rem; /* Menos padding */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.3rem; /* Título de navbar más pequeño */
+        }
+
+        .navbar-text {
+            color: #6c757d;
+            font-size: 0.95rem; /* Texto de navbar más pequeño */
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-text span {
+            font-weight: 600;
+            color: #34495e;
+            margin-left: 5px;
+        }
+
+        main {
+            padding: 2rem; /* Menos padding general */
+        }
+
+        .section-title {
+            font-size: 2rem; /* Título de sección más pequeño */
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2rem; /* Menos margen */
+            text-align: center;
+            position: relative;
+            padding-bottom: 8px; /* Menos padding */
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 70px; /* Línea más corta */
+            height: 3px; /* Línea más delgada */
+            background-color: #3498db;
+            border-radius: 2px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px; /* Ligeramente menos redondeado */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* Sombra más sutil */
+            margin-bottom: 2rem; /* Menos espacio entre tarjetas */
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem; /* Título de tarjeta más pequeño */
+            padding: 1rem 1.5rem; /* Menos padding */
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem; /* Menos padding */
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem; /* Menos margen */
+            display: block;
+            font-size: 0.95rem; /* Etiqueta más pequeña */
+        }
+
+        .form-control-static {
+            background-color: #ecf0f1;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px; /* Ligeramente menos redondeado */
+            padding: 0.6rem 1rem; /* Menos padding */
+            margin-bottom: 1rem; /* Menos margen */
+            font-size: 0.95rem; /* Fuente más pequeña */
+            color: #34495e;
+            word-wrap: break-word;
+        }
+
+        .badge {
+            padding: 0.5em 0.8em; /* Menos padding */
+            border-radius: 0.6rem; /* Ligeramente menos redondeado */
+            font-size: 0.85em; /* Fuente más pequeña */
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .alert {
+            border-radius: 8px; /* Ligeramente menos redondeado */
+            padding: 1rem 1.5rem; /* Menos padding */
+            font-size: 1rem; /* Fuente ligeramente más pequeña */
+            font-weight: 500;
+        }
+
+        .btn {
+            border-radius: 8px; /* Ligeramente menos redondeado */
+            padding: 0.7rem 1.5rem; /* Menos padding */
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem; /* Botón más pequeño */
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.2); /* Sombra más sutil */
+        }
+        .btn-success:hover {
+            background-color: #229954;
+            border-color: #229954;
+            transform: translateY(-2px); /* Menor efecto */
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+            box-shadow: 0 3px 8px rgba(149, 165, 166, 0.2); /* Sombra más sutil */
+        }
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-2px); /* Menor efecto */
+            box-shadow: 0 4px 10px rgba(149, 165, 166, 0.3);
+        }
+
+        /* Estilos para el modal de confirmación de cierre de sesión */
+        #confirmacionCerrarSesion {
+            z-index: 1050;
+            background-color: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(0,0,0,0.15);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35); /* Sombra más sutil */
+            animation: fadeInScale 0.3s ease-out;
+            padding: 1.5rem; /* Menos padding */
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translate(-50%, -20px) scale(0.98); } /* Menor efecto */
+            to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.8rem; /* Menos padding */
+            }
+            .navbar-text {
+                margin-left: 0;
+                margin-top: 8px; /* Menos margen */
+            }
+            main {
+                padding: 1rem; /* Menos padding */
+            }
+            .section-title {
+                font-size: 1.6rem; /* Título más pequeño */
+                margin-bottom: 1.5rem;
+            }
+            .card-body {
+                padding: 1rem; /* Menos padding */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h4 class="text-center" th:text="${titulo}" ></h4>
+    <div class="list-group list-group-flush" id="sidebarMenu">
+
+        <!-- Inicio -->
+        <a th:href="@{/dashboard}" class="list-group-item">
+            <i class="bi bi-house-door"></i> Inicio
+        </a>
+
+        <!-- Usuarios -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseUsuarios">
+                <i class="bi bi-people"></i> Usuarios
+            </a>
+        </div>
+        <div class="collapse" id="collapseUsuarios">
+            <a th:href="@{/app/usuarios}" class="list-group-item ps-5">Lista de Usuarios</a>
+            <a th:href="@{/app/roles}" class="list-group-item ps-5">Roles</a>
+        </div>
+
+        <!-- Cursos -->
+        <div sec:authorize="hasAnyRole('Administrador', 'Docente')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseCursos">
+                <i class="bi bi-journal-check"></i> Cursos
+            </a>
+        </div>
+        <div class="collapse" id="collapseCursos">
+            <a th:href="@{/cursos}" class="list-group-item ps-5">Gestionar Cursos</a>
+            <a th:href="@{/app/cursos}" class="list-group-item ps-5">Otra Gestión</a>
+        </div>
+
+        <!-- Matrículas -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseMatriculas">
+                <i class="bi bi-person-badge"></i> Matrículas
+            </a>
+        </div>
+        <div class="collapse" id="collapseMatriculas">
+            <a th:href="@{/matriculas}" class="list-group-item ps-5">Ver Matrículas</a>
+            <a th:href="@{/matriculas/registrar}" class="list-group-item ps-5">Registrar</a>
+        </div>
+
+        <!-- Pagos -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapsePagos">
+                <i class="bi bi-cash-coin"></i> Pagos
+            </a>
+        </div>
+        <div class="collapse" id="collapsePagos">
+            <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de Pagos</a>
+            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">Validar Pagos</a>
+        </div>
+
+        <!-- Asesores -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseAsesores">
+                <i class="bi bi-person-workspace"></i> Asesores
+            </a>
+        </div>
+        <div class="collapse" id="collapseAsesores">
+            <a th:href="@{/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
+        </div>
+
+        <!-- Docentes -->
+        <div sec:authorize="hasRole('Administrador')">
+            <a class="list-group-item" data-bs-toggle="collapse" href="#collapseDocentes">
+                <i class="bi bi-mortarboard"></i> Docentes
+            </a>
+        </div>
+        <div class="collapse" id="collapseDocentes">
+            <a th:href="@{/app/docentes}" class="list-group-item ps-5">Lista de Docentes</a>
+        </div>
+
+        <!-- Cerrar sesión -->
+        <a href="#" class="list-group-item text-danger mt-3" onclick="mostrarConfirmacionCerrarSesion(event)">
+            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </a>
+
+        <!-- Modal de confirmación de cierre de sesión -->
+        <div id="confirmacionCerrarSesion" class="alert alert-danger d-none position-fixed top-0 start-50 translate-middle-x mt-5 shadow rounded-3" style="width: 400px; text-align: center;">
+            <p class="mb-3">¿Estás seguro de que deseas cerrar sesión?</p>
+            <a href="/salir" class="btn btn-danger me-2">Sí, salir</a>
+            <button class="btn btn-secondary" onclick="ocultarConfirmacionCerrarSesion()">No, quedarme</button>
+        </div>
+
+        <script>
+            function mostrarConfirmacionCerrarSesion(event) {
+                event.preventDefault();
+                document.getElementById('confirmacionCerrarSesion').classList.remove('d-none');
+            }
+
+            function ocultarConfirmacionCerrarSesion() {
+                document.getElementById('confirmacionCerrarSesion').classList.add('d-none');
+            }
+        </script>
+    </div>
+</div>
+
+<div class="main-content">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
+            <p class="navbar-text">Hola, <span sec:authentication="name"></span> 👋</p>
+            <p class="navbar-text ms-3">Rol: <span sec:authentication="authorities"></span></p>
+        </div>
+    </nav>
+
+    <main>
+		<div class="container">
+            <h1 class="section-title">Detalles del Pago</h1>
+
+            <div th:if="${pago != null}">
+                <form th:action="@{/pagos/validar/{idPago}(idPago=${pago.idPago})}" method="post">
+                    <input type="hidden" th:name="idPago" th:value="${pago.idPago}" />
+
+                    <!-- Card para Detalles del Pago -->
+                    <div class="card">
+                        <div class="card-header">
+                            Información del Pago
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-2"> <!-- Espacio reducido -->
+                                    <label for="idPagoDisplay" class="form-label">ID del Pago:</label>
+                                    <p class="form-control-static" th:text="${pago.idPago}" id="idPagoDisplay"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="fechaPagoDisplay" class="form-label">Fecha del Pago:</label>
+                                    <p class="form-control-static" th:text="${pago.fechaPago}" id="fechaPagoDisplay"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="montoPagadoDisplay" class="form-label">Monto Pagado:</label>
+                                    <p class="form-control-static" th:text="${pago.montoPagado}" id="montoPagadoDisplay"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="medioPagoDisplay" class="form-label">Medio de Pago:</label>
+                                    <p class="form-control-static" th:text="${pago.medioPago}" id="medioPagoDisplay"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="referenciaPagoDisplay" class="form-label">Referencia del Pago:</label>
+                                    <p class="form-control-static" th:text="${pago.referenciaPago}" id="referenciaPagoDisplay"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="estadoActualDisplay" class="form-label">Estado Actual:</label>
+                                    <p class="form-control-static">
+                                        <span th:switch="${pago.estadoActual}">
+                                            <span th:case="1" class="badge bg-primary">Registrado</span>
+                                            <span th:case="2" class="badge bg-success">Validado</span>
+                                            <span th:case="*" class="badge bg-secondary">Desconocido</span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card para Detalles de la Matrícula -->
+                    <div class="card" th:if="${pago.matricula != null}">
+                        <div class="card-header">
+                            Información de la Matrícula
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">ID de Matrícula:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.idMatricula}"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Fecha de Matrícula:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.fechaMatricula}"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Fecha Límite de Pago:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.fechaLimitePago}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${pago.matricula != null}" class="alert alert-info text-center card shadow-sm">
+                        <p class="mb-0">No se encontró información de la matrícula asociada a este pago.</p>
+                    </div>
+
+                    <!-- Card para Detalles del Docente -->
+                    <div class="card" th:if="${pago.matricula != null and pago.matricula.docente != null}">
+                        <div class="card-header">
+                            Información del Docente
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">ID del Docente:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.docente.idDocente}"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Nombre Completo del Docente:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.docente.persona.nombres + ' ' + pago.matricula.docente.persona.apellidos}"></p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Correo del Docente:</label>
+                                    <p class="form-control-static" th:text="${pago.matricula.docente.persona.correo}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${pago.matricula != null and pago.matricula.docente != null}" class="alert alert-info text-center card shadow-sm">
+                        <p class="mb-0">No se encontró información del docente para esta matrícula.</p>
+                    </div>
+
+                    <hr class="my-4"> <!-- Margen reducido -->
+
+                    <div class="d-flex justify-content-center align-items-center flex-wrap gap-2"> <!-- Gap reducido -->
+                        <p class="alert alert-info mb-0 p-2 rounded-pill shadow-sm" style="font-size: 0.9rem;">¿Deseas cambiar el estado de este pago a "Validado"?</p> <!-- Fuente más pequeña -->
+                        <button type="submit" class="btn btn-success">Confirmar Validación</button>
+                        <a th:href="@{/pagos}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+            <div th:unless="${pago != null}" class="alert alert-warning text-center card shadow-sm">
+                <p class="mb-0">Pago no encontrado.</p>
+                <a th:href="@{/pagos}" class="btn btn-primary mt-3">Volver a la lista de pagos</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
