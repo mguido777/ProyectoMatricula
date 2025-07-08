@@ -239,7 +239,7 @@
             </a>
         </div>
         <div class="collapse" id="collapseAsesores">
-            <a th:href="@{/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
+            <a th:href="@{/app/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
         </div>
 
         <!-- Docentes -->
@@ -285,64 +285,49 @@
         </div>
     </nav>
 
-	 <main th:fragment="contenido">
-	    <div>
-			
-			
-	        <p>Asesores</p>
-			<h1>Asesores Registrados</h1>
-			<table class="table table-bordered table-hover align-middle">
-			        <thead class="table-dark">
-			            <tr>
-			                <th>ID</th>
-			                <th>Nombre Persona</th>
-			                <th>Usuario</th>
-			                <th>Estado</th>
-			            </tr>
-			        </thead>
-			        <tbody>
-						<tr>
-						                       <th>ID</th>
-						                       <th>Nombre Persona</th>
-						                       <th>Usuario</th>
-						                       <th>Estado</th>
-						                   </tr>
-						               </thead>
-						               <tbody>
-						                   <tr>
-						                       <td>1</td>
-						                       <td>Lucía Rojas</td>
-						                       <td>lucia.rojas</td>
-						                       <td><span class="badge bg-success">Activo</span></td>
-						                   </tr>
-						                   <tr>
-						                       <td>2</td>
-						                       <td>Jorge Paredes</td>
-						                       <td>jorge.p</td>
-						                       <td><span class="badge bg-success">Activo</span></td>
-						                   </tr>
-						                   <tr>
-						                       <td>3</td>
-						                       <td>Elena Vargas</td>
-						                       <td>elena.v</td>
-						                       <td><span class="badge bg-secondary">Inactivo</span></td>
-						                   </tr>
-						                   <tr>
-						                       <td>4</td>
-						                       <td>Mario Tello</td>
-						                       <td>mario.t</td>
-						                       <td><span class="badge bg-success">Activo</span></td>
-						                   </tr>
-						                   <tr>
-						                       <td>5</td>
-						                       <td>Sandra León</td>
-						                       <td>sandra.leon</td>
-						                       <td><span class="badge bg-secondary">Inactivo</span></td>
-						                   </tr>
-			        </tbody>
-			    </table>
-	    </div>
-	</main>
+	<main class="container py-4">
+	      <div class="d-flex justify-content-between align-items-center mb-3">
+	          <h2>Asesores</h2>
+	          <a th:href="@{/app/asesores/nuevo}" class="btn btn-primary">
+	              <i class="bi bi-plus-circle"></i> Nuevo Asesor
+	          </a>
+	      </div>
+
+	      <table class="table table-hover">
+	          <thead class="table-primary">
+	              <tr>
+	                  <th>#</th>
+	                  <th>Nombres</th>
+	                  <th>Apellidos</th>
+	                  <th>Usuario</th>
+	                  <th>Estado</th>
+	                  <th>Acciones</th>
+	              </tr>
+	          </thead>
+	          <tbody>
+	              <tr th:each="asesor, iterStat : ${asesores}">
+	                  <td th:text="${iterStat.count}">1</td>
+	                  <td th:text="${asesor.persona.nombres}">Nombre</td>
+	                  <td th:text="${asesor.persona.apellidos}">Apellido</td>
+	                  <td th:text="${asesor.usuario.username}">usuario</td>
+	                  <td>
+	                      <span th:text="${asesor.estado} ? 'Activo' : 'Inactivo'" 
+	                            th:classappend="${asesor.estado} ? 'text-success' : 'text-danger'">Estado</span>
+	                  </td>
+	                  <td>
+	                      <a th:href="@{/app/asesores/editar/{id}(id=${asesor.idAsesor})}" class="btn btn-sm btn-outline-primary">
+	                          <i class="bi bi-pencil-square"></i>
+	                      </a>
+	                      <form th:action="@{/app/asesores/eliminar/{id}(id=${asesor.idAsesor})}" method="post" style="display:inline;">
+	                          <button class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar asesor?')">
+	                              <i class="bi bi-trash3"></i>
+	                          </button>
+	                      </form>
+	                  </td>
+	              </tr>
+	          </tbody>
+	      </table>
+	  </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

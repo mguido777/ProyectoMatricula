@@ -285,62 +285,35 @@
         </div>
     </nav>
 
-	<main>
-	       <div class="container">
-	           <h2 class="mb-4">Editar Docente</h2>
-	           <form th:action="@{'/app/docentes/editar/' + ${docente.idDocente}}" th:object="${docente}" method="post" class="row g-3">
-
+	<main class="container py-4">
+	       <h2 class="mb-4">Editar Asesor</h2>
+	       <form th:action="@{/app/asesores/editar/{id}(id=${asesor.idAsesor})}" method="post">
+	           <div class="row mb-3">
 	               <div class="col-md-6">
-	                   <label for="nombres" class="form-label">Nombres:</label>
-	                   <input type="text" id="nombres" name="persona.nombres" th:value="${docente.persona.nombres}" class="form-control" required />
+	                   <label for="nombres" class="form-label">Nombres</label>
+	                   <input type="text" id="nombres" name="persona.nombres" class="form-control"
+	                          th:value="${asesor.persona.nombres}" required>
 	               </div>
-
 	               <div class="col-md-6">
-	                   <label for="apellidos" class="form-label">Apellidos:</label>
-	                   <input type="text" id="apellidos" name="persona.apellidos" th:value="${docente.persona.apellidos}" class="form-control" required />
+	                   <label for="apellidos" class="form-label">Apellidos</label>
+	                   <input type="text" id="apellidos" name="persona.apellidos" class="form-control"
+	                          th:value="${asesor.persona.apellidos}" required>
 	               </div>
+	           </div>
 
-	               <div class="col-md-6">
-	                   <label class="form-label">DNI:</label>
-	                   <input type="text" th:value="${docente.persona.dni}" class="form-control" readonly />
-	                   <input type="hidden" name="persona.dni" th:value="${docente.persona.dni}" />
-	               </div>
+	           <div class="mb-3">
+	               <label for="estado" class="form-label">Estado</label>
+	               <select id="estado" name="estado" class="form-select">
+	                   <option th:value="true" th:selected="${asesor.estado} == true">Activo</option>
+	                   <option th:value="false" th:selected="${asesor.estado} == false">Inactivo</option>
+	               </select>
+	           </div>
 
-	               <div class="col-md-6">
-	                   <label for="direccion" class="form-label">Dirección:</label>
-	                   <input type="text" id="direccion" name="persona.direccion" th:value="${docente.persona.direccion}" class="form-control" />
-	               </div>
-
-	               <div class="col-md-6">
-	                   <label for="telefono" class="form-label">Teléfono:</label>
-	                   <input type="text" id="telefono" name="persona.telefono" th:value="${docente.persona.telefono}" class="form-control" />
-	               </div>
-
-	               <div class="col-md-6">
-	                   <label for="correo" class="form-label">Correo:</label>
-	                   <input type="email" id="correo" name="persona.correo" th:value="${docente.persona.correo}" class="form-control" />
-	               </div>
-
-	               <div class="col-md-6">
-	                   <label for="estado" class="form-label">Estado:</label>
-	                   <select id="estado" name="estado">
-					    <option value="true" th:selected="${docente.estado} == true">Activo</option>
-					    <option value="false" th:selected="${docente.estado} == false">Inactivo</option>
-					</select>
-	               </div>
-
-	               <input type="hidden" name="persona.idPersona" th:value="${docente.persona.idPersona}" />
-
-	               <div class="col-12">
-	                   <button type="submit" class="btn btn-primary">
-	                       <i class="bi bi-save"></i> Guardar cambios
-	                   </button>
-	                   <a th:href="@{/app/docentes}" class="btn btn-secondary ms-2">
-	                       <i class="bi bi-x-circle"></i> Cancelar
-	                   </a>
-	               </div>
-	           </form>
-	       </div>
+	           <button type="submit" class="btn btn-success">
+	               <i class="bi bi-save"></i> Guardar Cambios
+	           </button>
+	           <a th:href="@{/app/asesores}" class="btn btn-secondary">Cancelar</a>
+	       </form>
 	   </main>
 </div>
 
