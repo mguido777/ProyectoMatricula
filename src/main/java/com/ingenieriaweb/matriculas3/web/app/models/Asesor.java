@@ -10,11 +10,11 @@ public class Asesor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAsesor;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_persona", referencedColumnName = "idPersona")
     private Persona persona;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario")
     private Usuario usuario;
 

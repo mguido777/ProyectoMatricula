@@ -42,8 +42,6 @@
     		<artifactId>spring-security-config</artifactId>
     		<version>${springsecurity.version}</version>
 		</dependency>
-		
-
 		<dependency>
    			 <groupId>org.thymeleaf.extras</groupId>
     		<artifactId>thymeleaf-extras-springsecurity6</artifactId>

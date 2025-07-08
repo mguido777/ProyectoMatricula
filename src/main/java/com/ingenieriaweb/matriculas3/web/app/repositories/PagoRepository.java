@@ -8,3 +8,4 @@ import com.ingenieriaweb.matriculas3.web.app.models.Pago;
 @Repository
 public interface PagoRepository extends JpaRepository<Pago, Integer> {
 }
+

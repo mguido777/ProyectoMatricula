@@ -1,86 +1,190 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <title th:text="${titulo}"></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+	<style>
+	    body {
+	        font-family: 'Poppins', sans-serif;
+	        background-color: #f8f9fa;
+	        margin: 0;
+	    }
 
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: #343a40;
-            color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding-top: 1rem;
-            overflow-y: auto;
-        }
+	    .sidebar {
+	        width: 250px;
+	        height: 100vh;
+	        position: fixed;
+	        top: 0;
+	        left: 0;
+	        background-color: #0d6efd;
+	        border-right: 1px solid #0b5ed7;
+	        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+	        overflow-y: auto;
+	        padding: 1.5rem 1rem;
+	        z-index: 1030;
+	    }
 
-        .sidebar h4 {
-            color: #fff;
-            margin-bottom: 1.5rem;
-        }
+	    .sidebar h4 {
+	        text-align: center;
+	        font-size: 1.7rem;
+	        margin-bottom: 2rem;
+	        font-weight: 600;
+	        color: #ffffff;
+	        letter-spacing: 0.5px;
+	    }
 
-        .sidebar .list-group-item {
-            background-color: transparent;
-            color: #adb5bd;
-            border: none;
-            transition: 0.3s;
-        }
+	    .sidebar .brand {
+	        font-size: 1.4rem;
+	        color: #ffffff;
+	        font-weight: 600;
+	        text-align: center;
+	        margin-bottom: 1.5rem;
+	        display: flex;
+	        align-items: center;
+	        justify-content: center;
+	        gap: 10px;
+	    }
 
-        .sidebar .list-group-item:hover,
-        .sidebar .list-group-item:focus,
-        .sidebar .list-group-item.active {
-            background-color: #495057;
-            color: #fff;
-        }
+	    .sidebar .brand i {
+	        font-size: 1.5rem;
+	    }
 
-        .sidebar .list-group-item i {
-            margin-right: 8px;
-        }
+	    .list-group-item {
+	        border: none;
+	        background: none;
+	        font-size: 1rem;
+	        font-weight: 500;
+	        color: #e8f0ff;
+	        padding: 12px 18px;
+	        display: flex;
+	        align-items: center;
+	        border-radius: 10px;
+	        margin-bottom: 6px;
+	        transition: all 0.3s ease;
+	        font-family: 'Poppins', sans-serif;
+	    }
 
-        .main-content {
-            margin-left: 250px;
-            min-height: 100vh;
-            background-color: #f1f3f5;
-        }
+	    .list-group-item i {
+	        font-size: 1.1rem;
+	        margin-right: 12px;
+	        color: #ffffff;
+	    }
 
-        .navbar {
-            background-color: #fff;
-            border-bottom: 1px solid #dee2e6;
-        }
+	    .list-group-item:hover {
+	        background-color: rgba(255, 255, 255, 0.15);
+	        color: #ffffff;
+	        padding-left: 22px;
+	    }
 
-        .navbar-brand {
-            font-weight: bold;
-        }
+	    .collapse .list-group-item {
+	        font-size: 0.95rem;
+	        color: #dbe6ff;
+	        padding-left: 38px;
+	        font-weight: 400;
+	    }
 
-        .navbar-text {
-            margin-left: auto;
-        }
+	    .collapse .list-group-item:hover {
+	        background-color: rgba(255, 255, 255, 0.1);
+	        color: #ffffff;
+	    }
 
-        main {
-            padding: 2rem;
-        }
-    </style>
+	    .list-group-item.text-danger {
+	        background-color: #dc3545 !important;
+	        color: #ffffff !important;
+	        font-weight: 600;
+	        border-radius: 10px;
+	        transition: all 0.3s ease;
+	    }
+
+	    .list-group-item.text-danger i {
+	        color: #ffffff !important;
+	        transition: all 0.3s ease;
+	    }
+
+	    .list-group-item.text-danger:hover {
+	        background-color: #bb2d3b !important;
+	        color: #ffffff !important;
+	    }
+
+	    .list-group-item.text-danger:hover i {
+	        color: #ffffff !important;
+	    }
+
+	    .main-content {
+	        margin-left: 250px;
+	        min-height: 100vh;
+	        background-color: #f4f6f8;
+	    }
+
+	    .navbar {
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #dee2e6;
+	        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	        padding: 0.75rem 1.5rem;
+	    }
+
+	    .navbar-brand {
+	        font-weight: bold;
+	        color: #0d6efd;
+	        font-size: 1.25rem;
+	    }
+
+	    .navbar-text {
+	        margin-left: auto;
+	        font-size: 0.95rem;
+	        color: #495057;
+	    }
+
+	    main {
+	        padding: 2rem;
+	    }
+
+	    .alert {
+	        z-index: 1050;
+	    }
+
+	    #confirmacionCerrarSesion {
+	        animation: fadeIn 0.3s ease-in-out;
+	        background-color: #fff;
+	        border: 1px solid #dc3545;
+	        color: #212529;
+	    }
+
+	    #confirmacionCerrarSesion .btn-danger {
+	        background-color: #dc3545;
+	        border: none;
+	    }
+
+	    @keyframes fadeIn {
+	        from {
+	            opacity: 0;
+	            transform: translateY(-10px);
+	        }
+	        to {
+	            opacity: 1;
+	            transform: translateY(0);
+	        }
+	    }
+	</style>
 </head>
 <body>
 
-
 <div class="sidebar">
-    <h4 class="text-center" th:text="${titulo}" ></h4>
-   <div class="list-group list-group-flush" id="sidebarMenu">
+	<div class="brand">
+	    <i class="bi bi-mortarboard-fill"></i>
+	    DocentesPro
+	</div>
+    <h4 th:text="${titulo}">Sistema</h4>
+
+    <div class="list-group list-group-flush" id="sidebarMenu">
 
         <!-- Inicio -->
-        <a th:href="@{/dashboard}" class="list-group-item">
+        <a th:href="@{/app/index}" class="list-group-item">
             <i class="bi bi-house-door"></i> Inicio
         </a>
 
@@ -103,7 +207,7 @@
         </div>
         <div class="collapse" id="collapseCursos">
             <a th:href="@{/cursos}" class="list-group-item ps-5">Gestionar Cursos</a>
-            <a th:href="@{/app/cursos}" class="list-group-item ps-5">Otra Gestión</a>
+            
         </div>
 
         <!-- Matrículas -->
@@ -120,7 +224,7 @@
         <!-- Pagos -->
         <div sec:authorize="hasRole('Administrador')">
             <a class="list-group-item" data-bs-toggle="collapse" href="#collapsePagos">
-                <i class="bi bi-cash-coin"></i> Pagos
+                <i class="bi bi-cash-coin"></i> Pagos123
             </a>
         </div>
         <div class="collapse" id="collapsePagos">
@@ -135,7 +239,7 @@
             </a>
         </div>
         <div class="collapse" id="collapseAsesores">
-            <a th:href="@{/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
+            <a th:href="@{/app/asesores}" class="list-group-item ps-5">Lista de Asesores</a>
         </div>
 
         <!-- Docentes -->
@@ -172,72 +276,69 @@
     </div>
 </div>
 
-<!-- Main Content -->
+<!-- Contenido principal -->
 <div class="main-content">
     <nav class="navbar navbar-expand-lg px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema de matrículas CP</a>
-			<p>Hola, <span sec:authentication="name"></span> 👋</p>
-			<p>Tu rol: <span sec:authentication="authorities"></span></p>
-			
-			
+            <a class="navbar-brand" href="#">Sistema de Matrículas</a>
+            <span class="navbar-text">Tu rol: <span sec:authentication="authorities"></span></span>
         </div>
     </nav>
 
-    <!-- Contenido dinámico -->
-   <main th:fragment="contenido">
-    <div>
-        <p>Matriculas</p>
-		<div class="container mt-5">
-		  <h2 class="mb-4">Lista de Matrículas</h2>
-		  <table class="table table-bordered table-hover table-striped">
-		    <thead class="table-danger">
-		      <tr>
-		        <th>ID Matrícula</th>
-		        <th>Fecha Matrícula</th>
-		        <th>Fecha Límite de Pago</th>
-		        <th>Docente</th>
-		        <th>Periodo</th>
-		        <th>Estado Actual</th>
-		        <th>Activo</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-		      <tr>
-		        <td>101</td>
-		        <td>2025-03-01</td>
-		        <td>2025-03-15</td>
-		        <td>Prof. Lucía Rojas</td>
-		        <td>2025-I</td>
-		        <td>1</td>
-		        <td>✔️</td>
-		      </tr>
-		      <tr>
-		        <td>102</td>
-		        <td>2025-03-05</td>
-		        <td>2025-03-20</td>
-		        <td>Prof. Jorge Paredes</td>
-		        <td>2025-I</td>
-		        <td>2</td>
-		        <td>✔️</td>
-		      </tr>
-		      <tr>
-		        <td>103</td>
-		        <td>2025-03-10</td>
-		        <td>2025-03-25</td>
-		        <td>Prof. Sandra León</td>
-		        <td>2025-II</td>
-		        <td>0</td>
-		        <td>❌</td>
-		      </tr>
-		    </tbody>
-		  </table>
-		</div>
-    </div>
-</main>
+	 <main th:fragment="contenido">
+	    <div>
+	        <p>Matriculas</p>
+			<div class="container mt-5">
+			  <h2 class="mb-4">Lista de Matrículas</h2>
+			  <table class="table table-bordered table-hover table-striped">
+			    <thead class="table-danger">
+			      <tr>
+			        <th>ID Matrícula</th>
+			        <th>Fecha Matrícula</th>
+			        <th>Fecha Límite de Pago</th>
+			        <th>Docente</th>
+			        <th>Periodo</th>
+			        <th>Estado Actual</th>
+			        <th>Activo</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			        <td>101</td>
+			        <td>2025-03-01</td>
+			        <td>2025-03-15</td>
+			        <td>Prof. Lucía Rojas</td>
+			        <td>2025-I</td>
+			        <td>1</td>
+			        <td>✔️</td>
+			      </tr>
+			      <tr>
+			        <td>102</td>
+			        <td>2025-03-05</td>
+			        <td>2025-03-20</td>
+			        <td>Prof. Jorge Paredes</td>
+			        <td>2025-I</td>
+			        <td>2</td>
+			        <td>✔️</td>
+			      </tr>
+			      <tr>
+			        <td>103</td>
+			        <td>2025-03-10</td>
+			        <td>2025-03-25</td>
+			        <td>Prof. Sandra León</td>
+			        <td>2025-II</td>
+			        <td>0</td>
+			        <td>❌</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+	    </div>
+	</main>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+

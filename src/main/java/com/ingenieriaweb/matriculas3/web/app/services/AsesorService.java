@@ -1,20 +1,12 @@
 package com.ingenieriaweb.matriculas3.web.app.services;
-
+import com.ingenieriaweb.matriculas3.web.app.models.Asesor;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.ingenieriaweb.matriculas3.web.app.models.Asesor;
-import com.ingenieriaweb.matriculas3.web.app.repositories.AsesorRepository;
+public interface AsesorService {
 
-@Service
-public class AsesorService {
-
-    @Autowired
-    private AsesorRepository asesorRepository;
-
-    public List<Asesor> listarTodos() {
-        return asesorRepository.findAll();
-    }
+    List<Asesor> listarTodos();
+    Asesor obtenerPorId(Integer id);
+    Asesor guardar(Asesor asesor);
+    void eliminar(Integer id);
 }
