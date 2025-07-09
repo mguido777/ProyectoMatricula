@@ -224,12 +224,11 @@
         <!-- Pagos -->
         <div sec:authorize="hasRole('Administrador')">
             <a class="list-group-item" data-bs-toggle="collapse" href="#collapsePagos">
-                <i class="bi bi-cash-coin"></i> Pagos123
+                <i class="bi bi-cash-coin"></i> Pagos
             </a>
         </div>
         <div class="collapse" id="collapsePagos">
             <a th:href="@{/pagos}" class="list-group-item ps-5">Lista de Pagos</a>
-            <a th:href="@{/pagos/validar}" class="list-group-item ps-5">Validar Pagos</a>
         </div>
 
         <!-- Asesores -->

@@ -224,7 +224,7 @@
         <!-- Pagos -->
         <div sec:authorize="hasRole('Administrador')">
             <a class="list-group-item" data-bs-toggle="collapse" href="#collapsePagos">
-                <i class="bi bi-cash-coin"></i> Pagos123
+                <i class="bi bi-cash-coin"></i> Pagos
             </a>
         </div>
         <div class="collapse" id="collapsePagos">
@@ -318,28 +318,15 @@
 								    <span th:case="*"
 								          class="badge bg-secondary">Desconocido</span> <!-- Para otros valores -->
 								  </span>
-								</td>
-
-					       <td>
-					      <a href="#" class="btn btn-sm btn-success">Validar</a>
-					       
-							  <a th:href="@{/pagos/eliminar/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger me-1" onclick="return confirm('¿Eliminar pago?')">Eliminar</a>
 							</td>
-
-<<<<<<< HEAD
-				       <td>
-				      <a th:href="@{/pagos/show/{id}(id=${pago.idPago})}" class="btn btn-sm btn-success">Validar</a>
-				       
-						  <a th:href="@{/pagos/eliminar/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger me-1" onclick="return confirm('¿Eliminar pago?')">Eliminar</a>
-						</td>
-=======
+				       		<td>
+				      			<a th:href="@{/pagos/show/{id}(id=${pago.idPago})}" class="btn btn-sm btn-success">Validar</a>
+						  		<a th:href="@{/pagos/eliminar/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger me-1" onclick="return confirm('¿Eliminar pago?')">Eliminar</a>
+							</td>
 					      </tr>
 					    </tbody>
 					  </table>
-					</div>
->>>>>>> 15f794190faebce96d38eeaab320954369842211
-
-	        	
+					</div>	        	
 	        </div>
 	    </main>
 </div>

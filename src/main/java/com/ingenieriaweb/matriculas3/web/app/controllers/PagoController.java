@@ -16,8 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ingenieriaweb.matriculas3.web.app.models.Pago;
 import com.ingenieriaweb.matriculas3.web.app.models.Matricula;
 import com.ingenieriaweb.matriculas3.web.app.models.Docente;
-import com.ingenieriaweb.matriculas3.web.app.models.Persona;
-import com.ingenieriaweb.matriculas3.web.app.models.Usuario;
 import com.ingenieriaweb.matriculas3.web.app.services.PagoService;
 
 @Controller
